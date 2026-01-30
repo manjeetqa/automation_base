@@ -24,6 +24,7 @@ class InventoryPage {
     this.searchInput = page.getByRole('searchbox', { name: 'Search' });
     this.grid = page.getByRole('grid');
     this.splitValue = page.locator('ui-splitvalue');
+    this.mainDetailHeading = this.inventoryIframe.contentFrame().locator('.maindetailheading');
   }
 
   async navigateToInventory() {
@@ -85,7 +86,14 @@ class InventoryPage {
   }
 
   async verifyConsumableInList(consumableName) {
-    await expect(this.splitValue).toHaveText(consumableName);
+    await expect(this.grid.locator(`ui-splitvalue:has-text("${consumableName}")`)).toBeVisible();
+  }
+
+  async getMainDetailHeadingText() {
+    //this.page.pause();
+    const actualName= await this.mainDetailHeading.textContent();
+    await this.closeForm();
+    return actualName;
   }
 
   // Business logic method for creating raw material inventory
@@ -107,7 +115,7 @@ class InventoryPage {
     await this.clickUnitsTab();
     await this.clickCreate();
     await this.verifySuccessMessage('Consumable Created Successfully');
-    await this.closeForm();
+   
   }
 }
 

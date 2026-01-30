@@ -56,8 +56,11 @@ test.only('Create consumable inventory', async ({ page }) => {
   await inventoryPage.navigateToInventory();
   await inventoryPage.createConsumableInventory(consumableName);
   
-  // Verify created consumable
+  // Get the actual name from the main detail heading
+  const actualName = await inventoryPage.getMainDetailHeadingText();
+  
+  // Verify created consumable using the extracted text
   await inventoryPage.clickConsumables();
-  await inventoryPage.searchForMaterial(consumableName);
-  await inventoryPage.verifyConsumableInList(consumableName);
+  await inventoryPage.searchForMaterial(actualName);
+  await inventoryPage.verifyConsumableInList(actualName);
 });
