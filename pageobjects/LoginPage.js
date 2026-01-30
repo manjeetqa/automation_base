@@ -17,6 +17,11 @@ export class LoginPage {
 
     this.userMenuBtn = page.getByText('AP', { exact: true });
     this.logoutOption = page.locator('.list.container-item.small.negative');
+    
+    // Additional locators for login method
+    this.addAccountBtn = '.list';
+    this.authCodeInput = page.getByRole('textbox', { name: 'e.g.' });
+    this.okBtn = page.getByRole('button', { name: 'Ok' });
   }
 
   // Action Methods
@@ -75,10 +80,10 @@ export class LoginPage {
   // **************FROM ANOTHER DIRECTORY*************
 
   async login(email, code) {
-    await this.ui.click(this.addAccountBtn);
+    await this.ui.click(this.page.locator(this.addAccountBtn));
     await this.ui.fill(this.emailInput, email);
     await this.ui.click(this.continueBtn);
-    await this.ui.click(this.signInWithAuthenticatorBtn);
+    await this.ui.click(this.signinAuthenticatorBtn);
     await this.ui.fill(this.authCodeInput, code);
     await this.ui.click(this.continueBtn);
     await this.ui.click(this.okBtn);
